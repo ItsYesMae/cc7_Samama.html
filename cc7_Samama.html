@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Time Password</title>
+    <style>
+        body {
+            background: lightblue; 
+            text-align: center;
+            font-family: Arial;
+            color: navy;
+        }
+        button {
+            padding: 10px; 
+            background: violet;
+            cursor: pointer;
+        }
+        a {
+            font-size: 0.5em; 
+            color: maroon;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body onload="generateOTP()">
+    <h1>Final Verification Step</h1>
+    <h2>Current OTP: <span id="otp"> _ _ _ _ _ _ </span> <a href="#" onclick="generateOTP()">New OTP</a></h2>
+    <button onclick="validateOTP()">Enter the OTP as shown above</button>
+
+<script>
+function generateOTP() {
+    var otp = "";
+    for (var i = 0; i < 6; i++) {
+        otp += Math.floor(Math.random() * 10);
+    }
+    document.getElementById("otp").textContent = otp;
+    displayMessage("generateMsg", "New OTP generated: " + otp);
+}
+
+function validateOTP() {
+    var enteredOTP = prompt("Please enter the OTP:");
+    var currentOTP = document.getElementById("otp").textContent;
+
+    if (enteredOTP !== null && enteredOTP.trim() !== "" && !isNaN(enteredOTP) && enteredOTP.length === 6) {
+        if (enteredOTP === currentOTP) {
+            window.open("https://genshin-impact.fandom.com/wiki/Genshin_Impact", "_blank");
+            displayMessage("successMsg", "OTP verified successfully! Redirecting...");
+        } else {
+            alert("Incorrect OTP. Please try again.");
+            displayMessage("errorMsg", "Incorrect OTP entered. Please try again.");
+        }
+    } else {
+        alert("Invalid OTP. Please enter a valid 6-digit numeric OTP.");
+    }
+}
+
+function displayMessage(elementId, message) {
+    document.getElementById(elementId).textContent = message;
+    setTimeout(function() {
+        document.getElementById(elementId).textContent = "";
+    }, 3000);
+}
+</script>
+</body>
+</html>
